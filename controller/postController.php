@@ -21,17 +21,29 @@
         }
 
         public function login($file, $data){
-            $login = new Model($this->pdo);
-            $login = $login->login($data);
-
-        
-            if($login){
+            if($data["email"]==="admin@gmail.com" && $data["password"]=="admin@gmail.com"){
+                $response = array(
+                    'status' => 'success',
+                    'role' => 'admin',
+                    'message' => 'You are an admin, Welcome back .'
+                );
                 session_start();
-                $_SESSION["user_data"] = $login;
-                echo json_encode($_SESSION["user_data"]);
+                $_SESSION["admin_data"] = $data;
+                echo json_encode($response);
             }else{
-                echo json_encode($login);
+                $login = new Model($this->pdo);
+                $login = $login->login($data);
+    
+            
+                if($login){
+                    session_start();
+                    $_SESSION["user_data"] = $login;
+                    echo json_encode($_SESSION["user_data"]);
+                }else{
+                    echo json_encode($login);
+                }
             }
+            
         }
 
         public function clientAdd($file, $data){
@@ -50,7 +62,7 @@
                     'status' => 'failed',
                     'message' => 'Kindly login first before performing any action.'
                 );
-                return $response;
+                echo json_encode($response);
             }
         }
 
@@ -70,7 +82,7 @@
                     'status' => 'failed',
                     'message' => 'Kindly login first before performing any action.'
                 );
-                return $response;
+                echo json_encode($response);
             }
         }
     }

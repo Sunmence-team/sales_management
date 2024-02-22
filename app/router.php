@@ -8,6 +8,9 @@ class Router
             $current_method = $_SERVER["REQUEST_METHOD"];
             $current_uri = $_SERVER["REQUEST_URI"];
 
+
+             
+
             if($current_method !== $method){
                 return false;
             }else{
@@ -120,4 +123,5 @@ class Router
         public static function post($path="", $controller="", $action=""){
             return self::handle('POST', $path, $controller, $action);
         }
+
     }

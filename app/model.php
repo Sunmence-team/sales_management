@@ -265,6 +265,71 @@ class model
         }
     }
     
+    public function admin_withdraw_transaction($admin_email){
+        try {
+
+            $stn = $this->pdo->prepare('SELECT * FROM `withdraw` ');
+            $stn->execute();
+            $row = $stn->fetchAll(PDO::FETCH_ASSOC);
+            
+            if($row){
+               return $row;
+            }else{
+                $response = array(
+                    'status' => 'success',
+                    'message' => 'no data found.'
+                );
+                return $response;
+            }
+        } catch (PDOException $e) {
+            error_log("Database Error: " . $e->getMessage());
+    
+            $errorMessage = "A database error occurred. Please contact the administrator.";
+    
+            // return $e->getMessage();
+            return $this->generateErrorResponse($errorMessage);
+        }
+    }
+    
+    public function admin_withdraw_transaction_approve($id){
+        try {
+            $status = 1;
+
+            $stn = $this->pdo->prepare('SELECT * FROM `withdraw` WHERE `id`=:id');
+            $stn->bindParam(':id', $id, PDO::PARAM_STR);
+            $stn->execute();
+            $row = $stn->fetch(PDO::FETCH_ASSOC);
+            
+            if($row){
+                $stn = $this->pdo->prepare('UPDATE `withdraw` SET `status`= :status WHERE  `id`=:id');
+                $stn->bindParam(':status', $status, PDO::PARAM_STR);
+                $stn->bindParam(':id', $id, PDO::PARAM_STR);
+                $stn->execute();
+
+                if($stn){
+                    $response = array(
+                        'status' => 'success',
+                        'message' => 'successfully updated.'
+                    );
+                    return $response;
+                }
+            }else{
+                $response = array(
+                    'status' => 'success',
+                    'message' => 'no data found with the id.'
+                );
+                return $response;
+            }
+        } catch (PDOException $e) {
+            error_log("Database Error: " . $e->getMessage());
+    
+            $errorMessage = "A database error occurred. Please contact the administrator.";
+    
+            // return $e->getMessage();
+            return $this->generateErrorResponse($errorMessage);
+        }
+    }
+    
     public function referals($user_email){
         try {
 
@@ -280,6 +345,147 @@ class model
                 $response = array(
                     'status' => 'success',
                     'message' => 'no data found.'
+                );
+                return $response;
+            }
+        } catch (PDOException $e) {
+            error_log("Database Error: " . $e->getMessage());
+    
+            $errorMessage = "A database error occurred. Please contact the administrator.";
+    
+            // return $e->getMessage();
+            return $this->generateErrorResponse($errorMessage);
+        }
+    }
+    
+    public function admin_referal($admin_email){
+        try {
+
+            $stn = $this->pdo->prepare('SELECT * FROM `client`');
+            $stn->execute();
+            $row = $stn->fetchAll(PDO::FETCH_ASSOC);
+            
+            if($row){
+               return $row;
+            }else{
+                $response = array(
+                    'status' => 'success',
+                    'message' => 'no data found.'
+                );
+                return $response;
+            }
+        } catch (PDOException $e) {
+            error_log("Database Error: " . $e->getMessage());
+    
+            $errorMessage = "A database error occurred. Please contact the administrator.";
+    
+            // return $e->getMessage();
+            return $this->generateErrorResponse($errorMessage);
+        }
+    }
+    
+    public function admin_referal_approve($id){
+        try {
+            $status = 1;
+
+            $stn = $this->pdo->prepare('SELECT * FROM `client` WHERE `id`=:id');
+            $stn->bindParam(':id', $id, PDO::PARAM_STR);
+            $stn->execute();
+            $row = $stn->fetch(PDO::FETCH_ASSOC);
+            
+            if($row){
+                $stn = $this->pdo->prepare('UPDATE `client` SET `status`= :status WHERE  `id`=:id');
+                $stn->bindParam(':status', $status, PDO::PARAM_STR);
+                $stn->bindParam(':id', $id, PDO::PARAM_STR);
+                $stn->execute();
+
+                if($stn){
+                    $response = array(
+                        'status' => 'success',
+                        'message' => 'successfully updated.'
+                    );
+                    return $response;
+                }
+            }else{
+                $response = array(
+                    'status' => 'success',
+                    'message' => 'no data found with the id.'
+                );
+                return $response;
+            }
+        } catch (PDOException $e) {
+            error_log("Database Error: " . $e->getMessage());
+    
+            $errorMessage = "A database error occurred. Please contact the administrator.";
+    
+            // return $e->getMessage();
+            return $this->generateErrorResponse($errorMessage);
+        }
+    }
+    
+    public function delete_withdraw($id){
+        try {
+            $status = 1;
+
+            $stn = $this->pdo->prepare('SELECT * FROM `withdraw` WHERE `id`=:id');
+            $stn->bindParam(':id', $id, PDO::PARAM_STR);
+            $stn->execute();
+            $row = $stn->fetch(PDO::FETCH_ASSOC);
+            
+            if($row){
+                $stn = $this->pdo->prepare('DELETE FROM `withdraw` WHERE  `id`=:id');
+                $stn->bindParam(':id', $id, PDO::PARAM_STR);
+                $stn->execute();
+
+                if($stn){
+                    $response = array(
+                        'status' => 'success',
+                        'message' => 'successfully deleted.'
+                    );
+                    return $response;
+                }
+            }else{
+                $response = array(
+                    'status' => 'success',
+                    'message' => 'no data found with the id.'
+                );
+                return $response;
+            }
+        } catch (PDOException $e) {
+            error_log("Database Error: " . $e->getMessage());
+    
+            $errorMessage = "A database error occurred. Please contact the administrator.";
+    
+            // return $e->getMessage();
+            return $this->generateErrorResponse($errorMessage);
+        }
+    }
+    
+    public function delete_referal($id){
+        try {
+            $status = 1;
+
+            $stn = $this->pdo->prepare('SELECT * FROM `client` WHERE `id`=:id');
+            $stn->bindParam(':id', $id, PDO::PARAM_STR);
+            $stn->execute();
+            $row = $stn->fetch(PDO::FETCH_ASSOC);
+            
+            if($row){
+                $stn = $this->pdo->prepare('DELETE FROM `client` WHERE  `id`=:id');
+                $stn->bindParam(':id', $id, PDO::PARAM_STR);
+                $stn->execute();
+
+                if($stn){
+                    $response = array(
+                        'status' => 'success',
+                        'message' => 'successfully deleted.'
+                    );
+                    return $response;
+                }
+            }else{
+                $response = array(
+                    'status' => 'success',
+                    'message' => 'no data found with the id.'
                 );
                 return $response;
             }
